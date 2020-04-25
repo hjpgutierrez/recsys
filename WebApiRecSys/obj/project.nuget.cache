@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Hg+3qzd0WY+3kroUw8cADo1mWIQ3w3dcUQxExTZbavykZnK1GCTFSzaA7Qve+c8g9zcYNfVDG84ZPv8IMTTmtA==",
+  "dgSpecHash": "R7dvIaQuZPx0xmh8ncEU07swttpLbR1FILSrlhs+lpvUvKeuaOOa7h6uK4uAy/k+Qr5AWEIKWQOWhtknIMgPNg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Usuario\\Desktop\\recsys\\WebApiRecSys\\WebApiRecSys.csproj",
+  "projectFilePath": "C:\\Users\\hpaez\\Documents\\recsys\\recsys\\WebApiRecSys\\WebApiRecSys.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Usuario\\.nuget\\packages\\mysqlconnector\\0.64.0\\mysqlconnector.0.64.0.nupkg.sha512"
+    "C:\\Users\\hpaez\\.nuget\\packages\\mysqlconnector\\0.64.0\\mysqlconnector.0.64.0.nupkg.sha512"
   ],
   "logs": []
 }
