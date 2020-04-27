@@ -37,9 +37,11 @@ namespace WebApiRecSys.Controllers
                         Directory.CreateDirectory(raiz);
                     }
 
-                    string nombreArchivo = raiz + objFile.files.Name;
+                    var uniqueFileName = GetUniqueFileName(objFile.files.FileName);
+                    var uploads = Path.Combine(_env.WebRootPath, "Upload");
+                    var filePath = Path.Combine(uploads,uniqueFileName);
 
-                    using (FileStream fileStream = System.IO.File.Create(nombreArchivo))
+                    using (FileStream fileStream = System.IO.File.Create(filePath))
                     {
                         objFile.files.CopyTo(fileStream);
                         fileStream.Flush();
@@ -51,7 +53,7 @@ namespace WebApiRecSys.Controllers
                         if (result is null)
                             return new NotFoundResult();
 
-                        result.ImagenUsuario = nombreArchivo;
+                        result.ImagenUsuario = uniqueFileName;
                         await result.ActualizarImagen();
                         return  new OkObjectResult(result);
                     }
@@ -138,5 +140,13 @@ namespace WebApiRecSys.Controllers
             } 
         }
 
+        private string GetUniqueFileName(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return  Path.GetFileNameWithoutExtension(fileName)
+                    + "_" 
+                    + Guid.NewGuid().ToString().Substring(0, 4) 
+                    + Path.GetExtension(fileName);
+        }
     }
 }
