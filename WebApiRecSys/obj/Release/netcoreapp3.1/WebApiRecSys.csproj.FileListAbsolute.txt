@@ -20,3 +20,8 @@ C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\obj\Release\netcoreapp3.1\st
 C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\obj\Release\netcoreapp3.1\WebApiRecSys.dll
 C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\obj\Release\netcoreapp3.1\WebApiRecSys.pdb
 C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\obj\Release\netcoreapp3.1\WebApiRecSys.genruntimeconfig.cache
+C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Release\netcoreapp3.1\publish\web.config
+C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Release\netcoreapp3.1\publish\appsettings.Development.json
+C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Release\netcoreapp3.1\publish\appsettings.json
+C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Release\netcoreapp3.1\publish\WebApiRecSys.deps.json
+C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Release\netcoreapp3.1\publish\WebApiRecSys.runtimeconfig.json
