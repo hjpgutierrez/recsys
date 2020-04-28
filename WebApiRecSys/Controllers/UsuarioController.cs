@@ -1,9 +1,10 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
+
 
 
 namespace WebApiRecSys.Controllers
@@ -13,19 +14,88 @@ namespace WebApiRecSys.Controllers
     {
         public AppDb Db { get; }
         public IWebHostEnvironment _env;
+
         public UsuarioController(AppDb db, IWebHostEnvironment env)
         {
             Db = db;
             _env = env;
         }
-
-        public class FileUploadAPI
+        
+             
+        [HttpGet]
+        public async Task<RespuestaJson> cargar()
         {
-            public IFormFile files {get; set;}
+            try
+            {
+                await Db.Connection.OpenAsync();
+                var query = new UsuarioQuery(Db);
+                var result = await query.BuscarUltimosUsuario();
+                return new RespuestaJson(true, null, result);
+            } 
+            catch (Exception ex)
+            {
+                return new RespuestaJson(false, ex.Message.ToString(), null);
+            }
+        }
+
+      
+        [HttpGet("{id}")]
+        public async Task<RespuestaJson> buscar(int id)
+        {
+            try
+            {
+                await Db.Connection.OpenAsync();
+                var query = new UsuarioQuery(Db);
+                var result = await query.BuscarUsuario(id);
+                if (result is null)
+                    return new RespuestaJson(false, "Usuario no encontrado.", null);
+
+                    return new RespuestaJson(true, null, result);
+            } 
+            catch (Exception ex)
+            {
+                return new RespuestaJson(false, ex.Message.ToString(), null);
+            }
+        }
+
+        [HttpGet("{usuario}/{pass}")]
+        public async Task<RespuestaJson> login(string usuario, string pass)
+        {
+            try
+            {
+                await Db.Connection.OpenAsync();
+                var query = new UsuarioQuery(Db);
+                var result = await query.BuscarUsuario(usuario, pass);
+                if (result is null)
+                    return new RespuestaJson(false, "Usuario no encontrado.", null);
+                    
+                return new RespuestaJson(true, null, result);
+            } 
+            catch (Exception ex)
+            {
+                return new RespuestaJson(false, ex.Message.ToString(), null);
+            }
+        }
+
+        
+        [HttpPost]
+        public async Task<RespuestaJson> agregar([FromBody]Usuario result)
+        {
+            try
+            {
+                await Db.Connection.OpenAsync();
+                result.Db = Db;
+                await result.InsertarUsuario();
+                return new RespuestaJson(true, null, result);
+            } 
+            catch (Exception ex)
+            {
+                return new RespuestaJson(false, ex.Message.ToString(), null);
+            }           
         }
 
         [HttpPut]
-        public async Task<IActionResult> ActualizarImagen(FileUploadAPI objFile, int id)
+        public async Task<RespuestaJson> ActualizarImagen(FileUploadAPI objFile, int id)
         {
             try
             {
@@ -37,7 +107,7 @@ namespace WebApiRecSys.Controllers
                         Directory.CreateDirectory(raiz);
                     }
 
-                    var uniqueFileName = GetUniqueFileName(objFile.files.FileName);
+                    var uniqueFileName = FileUploadAPI.GetUniqueFileName(objFile.files.FileName);
                     var uploads = Path.Combine(_env.WebRootPath, "Upload");
                     var filePath = Path.Combine(uploads,uniqueFileName);
 
@@ -51,78 +121,27 @@ namespace WebApiRecSys.Controllers
                         var result = await query.BuscarUsuario(id);
 
                         if (result is null)
-                            return new NotFoundResult();
+                            return new RespuestaJson(false, "Usuario no encontrado.", null);
 
                         result.ImagenUsuario = uniqueFileName;
                         await result.ActualizarImagen();
-                        return  new OkObjectResult(result);
+                        return new RespuestaJson(true, null, result);
                     }
                 }
                 else
                 {
-                    return new NotFoundResult();
+                    return new RespuestaJson(false, "Archivo no encontrado.", null);
                 }
             } 
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message.ToString());
-            } 
-        }
-
-        // GET api/usuario
-                 
-        [HttpGet]
-        public async Task<IActionResult> cargar()
-        {
-            await Db.Connection.OpenAsync();
-            var query = new UsuarioQuery(Db);
-            var result = await query.BuscarUltimosUsuario();
-            return new OkObjectResult(result);
-        }
-
-        // GET api/usuario/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> buscar(int id)
-        {
-            await Db.Connection.OpenAsync();
-            var query = new UsuarioQuery(Db);
-            var result = await query.BuscarUsuario(id);
-            if (result is null)
-                return new NotFoundResult();
-            return new OkObjectResult(result);
-        }
-
-        [HttpGet("{usuario}/{pass}")]
-        public async Task<IActionResult> login(string usuario, string pass)
-        {
-            await Db.Connection.OpenAsync();
-            var query = new UsuarioQuery(Db);
-            var result = await query.BuscarUsuario(usuario, pass);
-            if (result is null)
-                return new NotFoundResult();
-            return new OkObjectResult(result);
-        }
-
-        // POST api/usuario
-        [HttpPost]
-        public async Task<IActionResult> agregar([FromBody]Usuario body)
-        {
-            try
-            {
-                await Db.Connection.OpenAsync();
-                body.Db = Db;
-                await body.InsertarUsuario();
-                return new OkObjectResult(body);
-            } 
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message.ToString());
-            }            
+                return new RespuestaJson(false, ex.Message.ToString(), null);
+            }  
         }
 
         // DELETE api/usuario/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> eliminar(int id)
+        public async Task<RespuestaJson> eliminar(int id)
         {
             try
             {
@@ -130,23 +149,16 @@ namespace WebApiRecSys.Controllers
                 var query = new UsuarioQuery(Db);
                 var result = await query.BuscarUsuario(id);
                 if (result is null)
-                    return new NotFoundResult();
+                    return new RespuestaJson(false, "Usuario no encontrado.", null);
+
                 await result.Eliminar();
-                return new OkResult();
+                return new RespuestaJson(true, "Usuario eliminado", null);
             } 
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message.ToString());
+                return new RespuestaJson(false, ex.Message.ToString(), null);
             } 
         }
-
-        private string GetUniqueFileName(string fileName)
-        {
-            fileName = Path.GetFileName(fileName);
-            return  Path.GetFileNameWithoutExtension(fileName)
-                    + "_" 
-                    + Guid.NewGuid().ToString().Substring(0, 4) 
-                    + Path.GetExtension(fileName);
-        }
+  
     }
 }

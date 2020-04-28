@@ -47,3 +47,13 @@ C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publ
 C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\appsettings.json
 C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\WebApiRecSys.deps.json
 C:\Users\hpaez\Documents\recsys\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\WebApiRecSys.runtimeconfig.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\web.config
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\web.config
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\appsettings.Development.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\appsettings.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\appsettings.Development.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\appsettings.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\WebApiRecSys.deps.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\WebApiRecSys.runtimeconfig.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\WebApiRecSys.deps.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\WebApiRecSys.runtimeconfig.json
