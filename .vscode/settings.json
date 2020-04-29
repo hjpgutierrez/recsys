@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/2b0e32d9-fe36-4975-9ae4-273b2a4b500a/resourceGroups/GR-RecSys/providers/Microsoft.Web/sites/devrecsys",
+    "appService.deploySubpath": "WebApiRecSys\\publish"
+}
