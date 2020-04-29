@@ -8,19 +8,19 @@ namespace WebApiRecSys
 {
     public class Receta
     {
-        public int IdReceta { get; set; }
-        public string NombreReceta { get; set; }
-        public string Descripcion { get; set; }
-        public int IdUsuario { get; set; }
-        public double ValorTotal { 
+        public int idReceta { get; set; }
+        public string nombreReceta { get; set; }
+        public string descripcion { get; set; }
+        public int idUsuario { get; set; }
+        public double valorTotal { 
             get ;
             set ;
         }
-        public string Ciudad { get; set; }
-        public string ImagenReceta { get; set; }
-        public List<RecetaDetalle> ListaIngredientes { get; set; }
+        public string ciudad { get; set; }
+        public string imagenReceta { get; set; }
+        public List<RecetaDetalle> listaIngredientes { get; set; }
 
-        public string NombreUsuario { get; set; }
+        public string nombreUsuario { get; set; }
 
         internal AppDb Db { get; set; }
 
@@ -49,10 +49,10 @@ namespace WebApiRecSys
                                         @Ciudad);";
             BindearParametros(cmd);
             await cmd.ExecuteNonQueryAsync();
-            this.IdReceta = (int) cmd.LastInsertedId;
-            if(IdReceta > 0){
-                foreach(RecetaDetalle item in ListaIngredientes){
-                    item.IdReceta = this.IdReceta;
+            this.idReceta = (int) cmd.LastInsertedId;
+            if(idReceta > 0){
+                foreach(RecetaDetalle item in listaIngredientes){
+                    item.idReceta = this.idReceta;
                     item.Db = this.Db;
                     await item.Insertar();
                 }
@@ -65,31 +65,31 @@ namespace WebApiRecSys
             {
                 ParameterName = "@NombreReceta",
                 DbType = DbType.String,
-                Value = NombreReceta,
+                Value = nombreReceta,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@Descripcion",
                 DbType = DbType.String,
-                Value = Descripcion,
+                Value = descripcion,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@IdUsuario",
                 DbType = DbType.Int32,
-                Value = IdUsuario,
+                Value = idUsuario,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@ValorTotal",
                 DbType = DbType.Double,
-                Value = ValorTotal,
+                Value = valorTotal,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@Ciudad",
                 DbType = DbType.String,
-                Value = Ciudad,
+                Value = ciudad,
             });
         }
 

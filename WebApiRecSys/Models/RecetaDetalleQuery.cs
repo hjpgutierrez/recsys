@@ -37,15 +37,15 @@ namespace WebApiRecSys
                 {
                     var item = new RecetaDetalle(Db)
                     {
-                        IdDetalleReceta = reader.GetInt32(0),
-                        IdReceta = reader.GetInt32(1),
-                        NombreIngrediente = reader.GetString(2),
-                        Marca = reader.GetString(3),
-                        CantidadIngrediente = reader.GetDouble(4),
-                        Medida = reader.GetString(5),
-                        ValorIngrediente = reader.GetDouble(6),
-                        Subtotal= reader.GetDouble(7),
-                        Direccion = reader.GetString(8),                        
+                        idDetalleReceta = reader.GetInt32(0),
+                        idReceta = reader.GetInt32(1),
+                        nombreIngrediente = reader.GetString(2),
+                        marca = reader.GetString(3),
+                        cantidadIngrediente = reader.GetDouble(4),
+                        medida = reader.GetString(5),
+                        valorIngrediente = reader.GetDouble(6),
+                        subtotal= reader.GetDouble(7),
+                        direccion = reader.GetString(8),                        
                     };
                     lista.Add(item);
                 }

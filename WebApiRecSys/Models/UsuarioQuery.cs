@@ -65,14 +65,14 @@ namespace WebApiRecSys
                 {
                     var usuario = new Usuario(Db)
                     {
-                        IdUsuario = reader.GetInt32(0),
-                        LoginUsuario = reader.GetString(1),
-                        PasswordUsuario = reader.GetString(2),
-                        NombreUsuario = reader.GetString(3),
-                        ApellidoUsuario = reader.GetString(4),                        
-                        DocumentoUsuario = reader.GetString(5),
-                        ImagenUsuario = reader.IsDBNull(6) ? null : reader.GetString(6),
-                        IdPerfil = reader.GetInt32(7),
+                        idUsuario = reader.GetInt32(0),
+                        loginUsuario = reader.GetString(1),
+                        passwordUsuario = reader.GetString(2),
+                        nombreUsuario = reader.GetString(3),
+                        apellidoUsuario = reader.GetString(4),                        
+                        documentoUsuario = reader.GetString(5),
+                        imagenUsuario = reader.IsDBNull(6) ? null : reader.GetString(6),
+                        idPerfil = reader.GetInt32(7),
                     };
                     lista.Add(usuario);
                 }

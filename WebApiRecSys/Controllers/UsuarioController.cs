@@ -123,7 +123,7 @@ namespace WebApiRecSys.Controllers
                         if (result is null)
                             return new RespuestaJson(false, "Usuario no encontrado.", null);
 
-                        result.ImagenUsuario = uniqueFileName;
+                        result.imagenUsuario = uniqueFileName;
                         await result.ActualizarImagen();
                         return new RespuestaJson(true, null, result);
                     }

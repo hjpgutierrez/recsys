@@ -6,14 +6,14 @@ namespace WebApiRecSys
 {
     public class Usuario
     {
-        public int IdUsuario { get; set; }
-        public string LoginUsuario { get; set; }
-        public string PasswordUsuario { get; set; }
-        public string NombreUsuario { get; set; }
-        public string ApellidoUsuario { get; set; }
-        public string DocumentoUsuario { get; set; }
-        public string ImagenUsuario { get; set; }
-        public int IdPerfil { get; set; }
+        public int idUsuario { get; set; }
+        public string loginUsuario { get; set; }
+        public string passwordUsuario { get; set; }
+        public string nombreUsuario { get; set; }
+        public string apellidoUsuario { get; set; }
+        public string documentoUsuario { get; set; }
+        public string imagenUsuario { get; set; }
+        public int idPerfil { get; set; }
 
         internal AppDb Db { get; set; }
 
@@ -44,7 +44,7 @@ namespace WebApiRecSys
                                         @IdPerfil);";
             BindearParametros(cmd);
             await cmd.ExecuteNonQueryAsync();
-            IdUsuario = (int) cmd.LastInsertedId;
+            idUsuario = (int) cmd.LastInsertedId;
         }
         
 
@@ -71,7 +71,7 @@ namespace WebApiRecSys
             {
                 ParameterName = "@IdUsuario",
                 DbType = DbType.Int32,
-                Value = IdUsuario,
+                Value = idUsuario,
             });
         }
 
@@ -81,37 +81,37 @@ namespace WebApiRecSys
             {
                 ParameterName = "@LoginUsuario",
                 DbType = DbType.String,
-                Value = LoginUsuario,
+                Value = loginUsuario,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@PasswordUsuario",
                 DbType = DbType.String,
-                Value = PasswordUsuario,
+                Value = passwordUsuario,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@NombreUsuario",
                 DbType = DbType.String,
-                Value = NombreUsuario,
+                Value = nombreUsuario,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@ApellidoUsuario",
                 DbType = DbType.String,
-                Value = ApellidoUsuario,
+                Value = apellidoUsuario,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@DocumentoUsuario",
                 DbType = DbType.String,
-                Value = DocumentoUsuario,
+                Value = documentoUsuario,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@IdPerfil",
                 DbType = DbType.Int32,
-                Value = IdPerfil,
+                Value = idPerfil,
             });
         }
 
@@ -121,7 +121,7 @@ namespace WebApiRecSys
             {
                 ParameterName = "@ImagenUsuario",
                 DbType = DbType.String,
-                Value = ImagenUsuario,
+                Value = imagenUsuario,
             });
         }
     }

@@ -6,18 +6,18 @@ namespace WebApiRecSys
 {
     public class RecetaDetalle
     {
-        public int IdDetalleReceta { get; set; }
-        public int IdReceta { get; set; }
-        public string NombreIngrediente { get; set; }
-        public string Marca { get; set; }
-        public double CantidadIngrediente { get; set; }
-        public string Medida { get; set; }
-        public double ValorIngrediente { get; set; }
-        public double Subtotal { 
+        public int idDetalleReceta { get; set; }
+        public int idReceta { get; set; }
+        public string nombreIngrediente { get; set; }
+        public string marca { get; set; }
+        public double cantidadIngrediente { get; set; }
+        public string medida { get; set; }
+        public double valorIngrediente { get; set; }
+        public double subtotal { 
             get ; 
             set ;
         }
-        public string Direccion { get; set; }
+        public string direccion { get; set; }
 
         internal AppDb Db { get; set; }
 
@@ -52,7 +52,7 @@ namespace WebApiRecSys
                                                     @Direccion);";
             BindearParametros(cmd);
             await cmd.ExecuteNonQueryAsync();
-            this.IdDetalleReceta = (int) cmd.LastInsertedId;
+            this.idDetalleReceta = (int) cmd.LastInsertedId;
         }
 
         private void BindearParametros(MySqlCommand cmd)        
@@ -61,49 +61,49 @@ namespace WebApiRecSys
             {
                 ParameterName = "@IdReceta",
                 DbType = DbType.Int32,
-                Value = IdReceta,
+                Value = idReceta,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@NombreIngrediente",
                 DbType = DbType.String,
-                Value = NombreIngrediente,
+                Value = nombreIngrediente,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@Marca",
                 DbType = DbType.Int32,
-                Value = Marca,
+                Value = marca,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@CantidadIngrediente",
                 DbType = DbType.Double,
-                Value = CantidadIngrediente,
+                Value = cantidadIngrediente,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@Medida",
                 DbType = DbType.String,
-                Value = Medida,
+                Value = medida,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@Subtotal",
                 DbType = DbType.Double,
-                Value = Subtotal,
+                Value = subtotal,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@ValorIngrediente",
                 DbType = DbType.Double,
-                Value = ValorIngrediente,
+                Value = valorIngrediente,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@Direccion",
                 DbType = DbType.String,
-                Value = Direccion,
+                Value = direccion,
             });
         }
 

@@ -36,8 +36,8 @@ namespace WebApiRecSys
             var listaRecetas = await cargarTodos(await cmd.ExecuteReaderAsync());
             foreach (Receta item in listaRecetas)
             {
-                item.ListaIngredientes = await new RecetaDetalleQuery(Db)
-                        .BuscarDetallesRecetas(item.IdReceta);
+                item.listaIngredientes = await new RecetaDetalleQuery(Db)
+                        .BuscarDetallesRecetas(item.idReceta);
             }
             return listaRecetas;
         }
@@ -51,14 +51,14 @@ namespace WebApiRecSys
                 {
                     var item = new Receta(Db)
                     {
-                        IdReceta = reader.GetInt32(0),
-                        NombreReceta = reader.GetString(1),
-                        Descripcion = reader.GetString(2),
-                        IdUsuario = reader.GetInt32(3),
-                        ValorTotal = reader.GetDouble(4),                        
-                        Ciudad = reader.GetString(5),
-                        ImagenReceta = reader.IsDBNull(6) ? null : reader.GetString(6),
-                        NombreUsuario =  reader.GetString(7),                         
+                        idReceta = reader.GetInt32(0),
+                        nombreReceta = reader.GetString(1),
+                        descripcion = reader.GetString(2),
+                        idUsuario = reader.GetInt32(3),
+                        valorTotal = reader.GetDouble(4),                        
+                        ciudad = reader.GetString(5),
+                        imagenReceta = reader.IsDBNull(6) ? null : reader.GetString(6),
+                        nombreUsuario =  reader.GetString(7),                         
                     };
                     lista.Add(item);
                 }
