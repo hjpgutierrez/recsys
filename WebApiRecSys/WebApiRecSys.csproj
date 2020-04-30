@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="0.64.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
 

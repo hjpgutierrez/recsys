@@ -1,32 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\Desktop\\recsys\\WebApiRecSys\\WebApiRecSys.csproj": {}
+    "C:\\Users\\hpaez\\Documents\\recsys\\recsys\\WebApiRecSys\\WebApiRecSys.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\Desktop\\recsys\\WebApiRecSys\\WebApiRecSys.csproj": {
+    "C:\\Users\\hpaez\\Documents\\recsys\\recsys\\WebApiRecSys\\WebApiRecSys.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\recsys\\WebApiRecSys\\WebApiRecSys.csproj",
+        "projectUniqueName": "C:\\Users\\hpaez\\Documents\\recsys\\recsys\\WebApiRecSys\\WebApiRecSys.csproj",
         "projectName": "WebApiRecSys",
-        "projectPath": "C:\\Users\\Usuario\\Desktop\\recsys\\WebApiRecSys\\WebApiRecSys.csproj",
-        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Desktop\\recsys\\WebApiRecSys\\obj\\",
+        "projectPath": "C:\\Users\\hpaez\\Documents\\recsys\\recsys\\WebApiRecSys\\WebApiRecSys.csproj",
+        "packagesPath": "C:\\Users\\hpaez\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hpaez\\Documents\\recsys\\recsys\\WebApiRecSys\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\hpaez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://sbogpbmdb04v:7345/nuget": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,6 +45,10 @@
             "MySqlConnector": {
               "target": "Package",
               "version": "[0.64.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [
