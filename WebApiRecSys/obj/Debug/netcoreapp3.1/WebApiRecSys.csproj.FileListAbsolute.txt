@@ -92,3 +92,8 @@ C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\pub
 C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\publish\publish\publish\appsettings.json
 C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\publish\publish\publish\WebApiRecSys.deps.json
 C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\publish\publish\publish\WebApiRecSys.runtimeconfig.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\publish\publish\publish\publish\web.config
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\publish\publish\publish\publish\appsettings.Development.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\publish\publish\publish\publish\appsettings.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\publish\publish\publish\publish\WebApiRecSys.deps.json
+C:\Users\Usuario\Desktop\recsys\WebApiRecSys\bin\Debug\netcoreapp3.1\publish\publish\publish\publish\publish\publish\WebApiRecSys.runtimeconfig.json

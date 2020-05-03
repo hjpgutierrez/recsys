@@ -52,5 +52,33 @@ namespace WebApiRecSys
             }
             return lista;
         }
+
+        public async Task<List<RecetaDetalle>> CargarIngredientesFiltradoPorNombre(string filtro)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"SELECT dr.`NombreIngrediente`,dr.`Medida`,dr.`ValorIngrediente`,CONCAT_WS(' ',dr.`Direccion`,r.`Ciudad`)'Direccion' FROM detallereceta dr INNER JOIN receta r ON dr.`IdReceta`=r.`IdReceta` WHERE dr.`NombreIngrediente` LIKE '%"+filtro+"%' ORDER BY dr.`ValorIngrediente` ASC;";
+            return await cargarFiltrado(await cmd.ExecuteReaderAsync());
+        }
+
+        private async Task<List<RecetaDetalle>> cargarFiltrado(DbDataReader reader)
+        {
+            var lista = new List<RecetaDetalle>();
+            using (reader)
+            {
+                while (await reader.ReadAsync())
+                {
+                    var item = new RecetaDetalle(Db)
+                    {
+                        
+                        nombreIngrediente = reader.GetString(0),
+                        medida = reader.GetString(1),
+                        valorIngrediente = reader.GetDouble(2),
+                        direccion = reader.GetString(3),                        
+                    };
+                    lista.Add(item);
+                }
+            }
+            return lista;
+        }
     }
 }
