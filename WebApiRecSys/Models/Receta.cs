@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,18 @@ namespace WebApiRecSys
 
         public string nombreUsuario { get; set; }
 
+        public DateTime fechaCreacion { get; set; }
+
+        public int diasCreacion { get; set; }
+
+        public int cantidadLike { get; set; }
+
+        public int cantidadComentario { get; set; }
+
+        public List<Like> listaLikes { get; set; }
+
+        public List<Comentario> listaComentario { get; set; }
+
         internal AppDb Db { get; set; }
 
         public Receta()
@@ -41,12 +54,14 @@ namespace WebApiRecSys
                                 `Descripcion`,
                                 `IdUsuario`,
                                 `ValorTotal`,
-                                `Ciudad`)
+                                `Ciudad`,
+                                `FechaCreacion`)
                                 VALUES (@NombreReceta,
                                         @Descripcion,
                                         @IdUsuario,
                                         @ValorTotal,
-                                        @Ciudad);";
+                                        @Ciudad,
+                                        NOW());";
             BindearParametros(cmd);
             await cmd.ExecuteNonQueryAsync();
             this.idReceta = (int) cmd.LastInsertedId;

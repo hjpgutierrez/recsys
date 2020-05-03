@@ -50,14 +50,14 @@ namespace WebApiRecSys.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<RespuestaJson> buscarRecetasUsuario(int id)
+        [HttpGet("{idusuario}")]
+        public async Task<RespuestaJson> buscarRecetasUsuario(int idusuario)
         {
             try
             {
                 await Db.Connection.OpenAsync();
                 var query = new RecetaQuery(Db);
-                var result = await query.BuscarRecetasUsuario(id);
+                var result = await query.CargarRecetasUsuario(idusuario);
                 if (result is null)
                     return new RespuestaJson(false, "Usuario no tiene recetas.", null);
 

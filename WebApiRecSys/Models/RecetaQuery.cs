@@ -15,29 +15,38 @@ namespace WebApiRecSys
             Db = db;
         }
 
-        public async Task<Receta> BuscarRecetasUsuario(int id)
+        public async Task<List<Receta>> CargarRecetasUsuario(int id)
         {
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT r.*,CONCAT_WS(' ',u.`NombreUsuario`,u.`ApellidoUsuario`)'usuario' FROM receta r INNER JOIN usuario u ON r.`IdUsuario`=u.`IdUsuario` WHERE r.`IdUsuario`=@IdUsuario ORDER BY r.`IdReceta` DESC;";
+            cmd.CommandText = @"SELECT r.*,CONCAT_WS(' ',u.`NombreUsuario`,u.`ApellidoUsuario`)'usuario',CONVERT(DATEDIFF(NOW(),r.`FechaCreacion`),UNSIGNED INTEGER) AS diasCreacion,(SELECT COUNT(IdLike) FROM likes WHERE IdReceta=r.`IdReceta`)'cantidadLike',(SELECT COUNT(IdComentario) FROM comentario WHERE IdReceta=r.`IdReceta`)'cantidadComentario' FROM receta r INNER JOIN usuario u ON r.`IdUsuario`=u.`IdUsuario`  WHERE r.`IdUsuario`=@IdUsuario  ORDER BY r.`IdReceta` DESC;";
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@IdUsuario",
                 DbType = DbType.Int32,
                 Value = id,
             });
-            var result = await cargarTodos(await cmd.ExecuteReaderAsync());
-            return result.Count > 0 ? result[0] : null;
+            var listaRecetas = await cargarTodos(await cmd.ExecuteReaderAsync());
+            return await this.cargarDetallesReceta(listaRecetas);
         }
 
         public async Task<List<Receta>> BuscarRecetas()
         {
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT r.*,CONCAT_WS(' ',u.`NombreUsuario`,u.`ApellidoUsuario`)'usuario' FROM receta r INNER JOIN usuario u ON r.`IdUsuario`=u.`IdUsuario` ORDER BY r.`IdReceta` DESC;";
+            cmd.CommandText = @"SELECT r.*,CONCAT_WS(' ',u.`NombreUsuario`,u.`ApellidoUsuario`)'usuario',CONVERT(DATEDIFF(NOW(),r.`FechaCreacion`),UNSIGNED INTEGER) AS diasCreacion,(SELECT COUNT(IdLike) FROM likes WHERE IdReceta=r.`IdReceta`)'cantidadLike',(SELECT COUNT(IdComentario) FROM comentario WHERE IdReceta=r.`IdReceta`)'cantidadComentario' FROM receta r INNER JOIN usuario u ON r.`IdUsuario`=u.`IdUsuario` ORDER BY r.`IdReceta` DESC;";
             var listaRecetas = await cargarTodos(await cmd.ExecuteReaderAsync());
+            return await this.cargarDetallesReceta(listaRecetas);
+        }
+
+        private async Task<List<Receta>> cargarDetallesReceta(List<Receta> listaRecetas){
             foreach (Receta item in listaRecetas)
             {
                 item.listaIngredientes = await new RecetaDetalleQuery(Db)
                         .BuscarDetallesRecetas(item.idReceta);
+                item.listaLikes = await new LikeQuery(Db)
+                        .CargarLikesReceta(item.idReceta);
+                item.listaComentario = await new ComentarioQuery(Db)
+                        .CargarComentariosReceta(item.idReceta);
+
             }
             return listaRecetas;
         }
@@ -58,7 +67,11 @@ namespace WebApiRecSys
                         valorTotal = reader.GetDouble(4),                        
                         ciudad = reader.GetString(5),
                         imagenReceta = reader.IsDBNull(6) ? null : reader.GetString(6),
-                        nombreUsuario =  reader.GetString(7),                         
+                        nombreUsuario =  reader.GetString(8),   
+                        fechaCreacion = reader.GetDateTime(7), 
+                        diasCreacion = reader.GetInt32(9),
+                        cantidadLike = reader.GetInt32(10),
+                        cantidadComentario = reader.GetInt32(11),                     
                     };
                     lista.Add(item);
                 }

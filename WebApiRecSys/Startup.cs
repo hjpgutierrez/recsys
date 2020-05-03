@@ -28,7 +28,11 @@ namespace WebApiRecSys
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<AppDb>(_ => new AppDb(Configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddControllers();
+            services.AddControllers()
+            .AddJsonOptions(options =>
+                            {
+                                options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
