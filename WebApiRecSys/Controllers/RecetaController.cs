@@ -68,5 +68,57 @@ namespace WebApiRecSys.Controllers
                 return new RespuestaJson(false, ex.Message.ToString(), null);
             }
         }
+    
+        [HttpPut]
+        [Route("ImagenReceta")]
+        public async Task<RespuestaJson> ImagenReceta([FromBody]Imagen filtro)
+        {
+            try
+            {
+                await Db.Connection.OpenAsync();
+                var query = new RecetaQuery(Db);
+                var result = await query.BuscarReceta(filtro.idactualizar);
+
+                if (result is null)
+                    return new RespuestaJson(false, "Receta no encontrada.", null);
+
+                var bytes = Convert.FromBase64String(filtro.base64image);
+                
+                string raiz = _env.WebRootPath + "\\Upload\\";
+                if(!Directory.Exists(raiz))
+                {
+                    Directory.CreateDirectory(raiz);
+                }
+
+                var uniqueFileName = FileUploadAPI.GetUniqueFileName(
+                    FileUploadAPI.GenerarExtension(result.nombreReceta));
+                var uploads = Path.Combine(_env.WebRootPath, "Upload");
+                var filePath = Path.Combine(uploads,uniqueFileName);
+
+
+                if (bytes.Length > 0)
+                {
+                    using (FileStream fileStream = System.IO.File.Create(filePath))
+                    {
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Flush();
+
+                        result.imagenReceta = uniqueFileName;
+                        await result.ActualizarImagen();
+                        return new RespuestaJson(true, null, result);
+                    }
+                }
+                else
+                {
+                    return new RespuestaJson(false, "Archivo no encontrado.", null);
+                }
+        
+            } 
+            catch (Exception ex)
+            {
+                return new RespuestaJson(false, ex.Message.ToString(), null);
+            }  
+        }
+    
     }
 }

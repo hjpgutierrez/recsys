@@ -8,6 +8,8 @@ namespace WebApiRecSys
     {
         public IFormFile files {get; set;}
 
+        private const string extensionArchivos = ".jpg";
+
         public static string GetUniqueFileName(string fileName)
         {
             fileName = Path.GetFileName(fileName);
@@ -16,5 +18,16 @@ namespace WebApiRecSys
                     + Guid.NewGuid().ToString().Substring(0, 4) 
                     + Path.GetExtension(fileName);
         }
+
+        public static string GenerarExtension(string fileName)
+        {
+            return  fileName + extensionArchivos;
+        }
+    }
+
+    public class Imagen
+    {
+        public string base64image { get; set; }
+        public int idactualizar { get; set; }
     }
 }

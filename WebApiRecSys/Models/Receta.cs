@@ -74,6 +74,14 @@ namespace WebApiRecSys
             }
         }
 
+        public async Task ActualizarImagen()
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"UPDATE `receta` SET `ImagenReceta` = @ImagenReceta WHERE `IdReceta` = @IdReceta;";
+            BindearImagen(cmd);
+            BindearId(cmd);
+            await cmd.ExecuteNonQueryAsync();
+        }
         private void BindearParametros(MySqlCommand cmd)        
         {
             cmd.Parameters.Add(new MySqlParameter
@@ -108,5 +116,24 @@ namespace WebApiRecSys
             });
         }
 
+        private void BindearId(MySqlCommand cmd)
+        {
+                cmd.Parameters.Add(new MySqlParameter
+                {
+                    ParameterName = "@IdReceta",
+                    DbType = DbType.Int32,
+                    Value = idReceta,
+                });
+        }
+
+        private void BindearImagen(MySqlCommand cmd)
+        {
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@ImagenReceta",
+                DbType = DbType.String,
+                Value = imagenReceta,
+            });
+        }
     }
 }

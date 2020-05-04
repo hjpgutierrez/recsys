@@ -94,6 +94,27 @@ namespace WebApiRecSys.Controllers
             }           
         }
 
+         // DELETE api/usuario/5
+        [HttpDelete("{id}")]
+        public async Task<RespuestaJson> eliminar(int id)
+        {
+            try
+            {
+                await Db.Connection.OpenAsync();
+                var query = new UsuarioQuery(Db);
+                var result = await query.BuscarUsuario(id);
+                if (result is null)
+                    return new RespuestaJson(false, "Usuario no encontrado.", null);
+
+                await result.Eliminar();
+                return new RespuestaJson(true, "Usuario eliminado", null);
+            } 
+            catch (Exception ex)
+            {
+                return new RespuestaJson(false, ex.Message.ToString(), null);
+            } 
+        }
+
         [HttpPut]
         public async Task<RespuestaJson> ActualizarImagen(FileUploadAPI objFile, int id)
         {
@@ -138,27 +159,60 @@ namespace WebApiRecSys.Controllers
                 return new RespuestaJson(false, ex.Message.ToString(), null);
             }  
         }
+       
 
-        // DELETE api/usuario/5
-        [HttpDelete("{id}")]
-        public async Task<RespuestaJson> eliminar(int id)
+        [HttpPut]
+        [Route("ImagenUsuario")]
+        public async Task<RespuestaJson> ImagenUsuario([FromBody]Imagen filtro)
         {
             try
             {
                 await Db.Connection.OpenAsync();
                 var query = new UsuarioQuery(Db);
-                var result = await query.BuscarUsuario(id);
+                var result = await query.BuscarUsuario(filtro.idactualizar);
+
                 if (result is null)
                     return new RespuestaJson(false, "Usuario no encontrado.", null);
 
-                await result.Eliminar();
-                return new RespuestaJson(true, "Usuario eliminado", null);
+                var bytes = Convert.FromBase64String(filtro.base64image);
+                
+                string raiz = _env.WebRootPath + "\\Upload\\";
+                if(!Directory.Exists(raiz))
+                {
+                    Directory.CreateDirectory(raiz);
+                }
+
+                var uniqueFileName = FileUploadAPI.GetUniqueFileName(
+                    FileUploadAPI.GenerarExtension(result.loginUsuario));
+                var uploads = Path.Combine(_env.WebRootPath, "Upload");
+                var filePath = Path.Combine(uploads,uniqueFileName);
+
+
+                if (bytes.Length > 0)
+                {
+                    using (FileStream fileStream = System.IO.File.Create(filePath))
+                    {
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Flush();
+
+                        result.imagenUsuario = uniqueFileName;
+                        await result.ActualizarImagen();
+                        return new RespuestaJson(true, null, result);
+                    }
+                }
+                else
+                {
+                    return new RespuestaJson(false, "Archivo no encontrado.", null);
+                }
+        
             } 
             catch (Exception ex)
             {
                 return new RespuestaJson(false, ex.Message.ToString(), null);
-            } 
+            }  
         }
+
+       
   
     }
 }

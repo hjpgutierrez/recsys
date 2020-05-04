@@ -15,10 +15,24 @@ namespace WebApiRecSys
             Db = db;
         }
 
+        public async Task<Receta> BuscarReceta(int id)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = this.LlenarWhere("WHERE r.`IdReceta`=@IdReceta");
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@IdReceta",
+                DbType = DbType.Int32,
+                Value = id,
+            });
+            var result = await cargarTodos(await cmd.ExecuteReaderAsync());
+            return result.Count > 0 ? result[0] : null;
+        }
+
         public async Task<List<Receta>> CargarRecetasUsuario(int id)
         {
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT r.*,CONCAT_WS(' ',u.`NombreUsuario`,u.`ApellidoUsuario`)'usuario',CONVERT(DATEDIFF(NOW(),r.`FechaCreacion`),UNSIGNED INTEGER) AS diasCreacion,(SELECT COUNT(IdLike) FROM likes WHERE IdReceta=r.`IdReceta`)'cantidadLike',(SELECT COUNT(IdComentario) FROM comentario WHERE IdReceta=r.`IdReceta`)'cantidadComentario' FROM receta r INNER JOIN usuario u ON r.`IdUsuario`=u.`IdUsuario`  WHERE r.`IdUsuario`=@IdUsuario  ORDER BY r.`IdReceta` DESC;";
+            cmd.CommandText = this.LlenarWhere("WHERE r.`IdUsuario`=@IdUsuario");
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@IdUsuario",
@@ -32,9 +46,13 @@ namespace WebApiRecSys
         public async Task<List<Receta>> BuscarRecetas()
         {
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT r.*,CONCAT_WS(' ',u.`NombreUsuario`,u.`ApellidoUsuario`)'usuario',CONVERT(DATEDIFF(NOW(),r.`FechaCreacion`),UNSIGNED INTEGER) AS diasCreacion,(SELECT COUNT(IdLike) FROM likes WHERE IdReceta=r.`IdReceta`)'cantidadLike',(SELECT COUNT(IdComentario) FROM comentario WHERE IdReceta=r.`IdReceta`)'cantidadComentario' FROM receta r INNER JOIN usuario u ON r.`IdUsuario`=u.`IdUsuario` ORDER BY r.`IdReceta` DESC;";
+            cmd.CommandText = this.LlenarWhere(string.Empty);
             var listaRecetas = await cargarTodos(await cmd.ExecuteReaderAsync());
             return await this.cargarDetallesReceta(listaRecetas);
+        }
+
+        private string LlenarWhere(string where){
+            return @"SELECT r.*,CONCAT_WS(' ',u.`NombreUsuario`,u.`ApellidoUsuario`)'usuario',CONVERT(DATEDIFF(NOW(),r.`FechaCreacion`),UNSIGNED INTEGER) AS diasCreacion,(SELECT COUNT(IdLike) FROM likes WHERE IdReceta=r.`IdReceta`)'cantidadLike',(SELECT COUNT(IdComentario) FROM comentario WHERE IdReceta=r.`IdReceta`)'cantidadComentario' FROM receta r INNER JOIN usuario u ON r.`IdUsuario`=u.`IdUsuario`  "+where+" ORDER BY r.`IdReceta` DESC;";
         }
 
         private async Task<List<Receta>> cargarDetallesReceta(List<Receta> listaRecetas){
