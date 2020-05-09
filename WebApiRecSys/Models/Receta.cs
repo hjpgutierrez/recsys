@@ -13,10 +13,7 @@ namespace WebApiRecSys
         public string nombreReceta { get; set; }
         public string descripcion { get; set; }
         public int idUsuario { get; set; }
-        public double valorTotal { 
-            get ;
-            set ;
-        }
+        public double valorTotal { get ; set ;}
         public string ciudad { get; set; }
         public string imagenReceta { get; set; }
         public List<RecetaDetalle> listaIngredientes { get; set; }
@@ -82,6 +79,15 @@ namespace WebApiRecSys
             BindearId(cmd);
             await cmd.ExecuteNonQueryAsync();
         }
+
+        public async Task Eliminar()
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"DELETE FROM `receta` WHERE `IdReceta` = @IdReceta;";
+            BindearId(cmd);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
         private void BindearParametros(MySqlCommand cmd)        
         {
             cmd.Parameters.Add(new MySqlParameter
@@ -134,6 +140,49 @@ namespace WebApiRecSys
                 DbType = DbType.String,
                 Value = imagenReceta,
             });
+        }
+
+        public async Task Actualizar()
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"UPDATE `receta`
+                                        SET `NombreReceta` = @NombreReceta,
+                                        `Descripcion` = @Descripcion,
+                                        `IdUsuario` = @IdUsuario,
+                                        `ValorTotal` = @ValorTotal,
+                                        `Ciudad` = @Ciudad,
+                                        `FechaCreacion` = NOW()
+                                        WHERE `IdReceta` = @IdReceta;";
+            BindearParametros(cmd);
+            BindearId(cmd);
+            await cmd.ExecuteNonQueryAsync();
+           
+            // Almacenamos los que fueron editados, para eliminar los id que no.
+            string IdsIngredientesEditados = string.Empty;
+            foreach(RecetaDetalle item in listaIngredientes)
+            {
+                item.Db = this.Db;
+
+                IdsIngredientesEditados += item.idDetalleReceta;
+                // Si es el ultimo NO agregamos la coma(,)
+                if(item != listaIngredientes.Last())
+                {
+                    IdsIngredientesEditados += ",";
+                }
+
+                await item.Actualizar();
+                
+            }
+
+            await this.EliminarIngredientesNoEditados(idReceta, IdsIngredientesEditados);
+            
+        }
+
+        public async Task EliminarIngredientesNoEditados(int IdReceta, string IdsIngredientesEditados)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"DELETE FROM detallereceta WHERE IdDetalleReceta NOT IN("+IdsIngredientesEditados+") AND IdReceta="+IdReceta+";";
+            await cmd.ExecuteNonQueryAsync();
         }
     }
 }

@@ -50,19 +50,53 @@ namespace WebApiRecSys
                                                     @ValorIngrediente,
                                                     @Subtotal,
                                                     @Direccion);";
-            BindearParametros(cmd);
+            BindearParametros(cmd, true);
             await cmd.ExecuteNonQueryAsync();
             this.idDetalleReceta = (int) cmd.LastInsertedId;
         }
 
-        private void BindearParametros(MySqlCommand cmd)        
+        public async Task Actualizar()
         {
-            cmd.Parameters.Add(new MySqlParameter
-            {
-                ParameterName = "@IdReceta",
-                DbType = DbType.Int32,
-                Value = idReceta,
-            });
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"UPDATE `detallereceta`
+                                            SET 
+                                            `NombreIngrediente` = @NombreIngrediente,
+                                            `Marca` = @Marca,
+                                            `CantidadIngrediente` = @CantidadIngrediente,
+                                            `Medida` = @Medida,
+                                            `ValorIngrediente` = @ValorIngrediente,
+                                            `Subtotal` = @Subtotal,
+                                            `Direccion` = @Direccion
+                                            WHERE `IdDetalleReceta` = @IdDetalleReceta;";
+            BindearParametros(cmd, false);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        
+
+        private void BindearParametros(MySqlCommand cmd, bool agregar)        
+        {
+            if(agregar) {
+
+                cmd.Parameters.Add(new MySqlParameter
+                {
+                    ParameterName = "@IdReceta",
+                    DbType = DbType.Int32,
+                    Value = idReceta,
+                });
+
+            }
+            else {
+
+                cmd.Parameters.Add(new MySqlParameter
+                {
+                    ParameterName = "@IdDetalleReceta",
+                    DbType = DbType.Int32,
+                    Value = idDetalleReceta,
+                });
+
+            }
+            
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@NombreIngrediente",
