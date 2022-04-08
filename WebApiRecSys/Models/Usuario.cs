@@ -124,5 +124,10 @@ namespace WebApiRecSys
                 Value = imagenUsuario,
             });
         }
+
+        private int BindearImagenUsuario()
+        {
+            return 0;
+        }
     }
 }
