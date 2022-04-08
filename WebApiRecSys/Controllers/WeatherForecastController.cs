@@ -23,6 +23,7 @@ namespace WebApiRecSys.Controllers
             _logger = logger;
         }
 
+        // Test - rerun
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
