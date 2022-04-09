@@ -44,7 +44,6 @@ namespace WebApiRecSys
 
         // This methos receives 2 parameters but does nothing with them
         public void uselessMethod(int iNumber, String iString){
-            null;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
