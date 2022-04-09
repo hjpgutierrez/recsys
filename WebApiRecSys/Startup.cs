@@ -17,6 +17,11 @@ namespace WebApiRecSys
 {
     public class Startup
     {
+
+
+        int nuevoNumero;
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
