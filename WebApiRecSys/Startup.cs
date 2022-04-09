@@ -20,6 +20,7 @@ namespace WebApiRecSys
 
 
         int nuevoNumero;
+        String textoVacio;
 
 
         public Startup(IConfiguration configuration)
